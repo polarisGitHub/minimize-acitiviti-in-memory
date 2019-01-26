@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="IbatisVariableTypeHandler" class="org.activiti.engine.impl.db.IbatisVariableTypeHandler"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3307/chat?useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1qazxsw2"/>
+    </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+          p:configLocation="classpath:mybatis-config.xml"
+          p:dataSource-ref="dataSource">
+    </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="processEngineConfiguration" class="com.polaris.he.activiti.engine.InMemorySpringProcessEngineConfiguration">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="databaseSchemaUpdate"><null/></property>
+        <property name="dbHistoryUsed" value="false"/>
+        <property name="history" value="none"/>
+        <property name="enableExecutionRelationshipCounts" value="true"/>
+    </bean>
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+    <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
+    <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
+    <!--<bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>-->
+    <!--<bean id="taskService" factory-bean="processEngine" factory-method="getTaskService"/>-->
+    <!--<bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>-->
+
+</beans>

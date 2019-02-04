@@ -50,5 +50,8 @@ public class InMemorySpringProcessEngineConfiguration extends SpringProcessEngin
         executionDataManager = new InMemoryExecutionInMemoryDataManager();
         eventSubscriptionDataManager = new InMemoryEventSubscriptionDataManager();
         timerJobDataManager = new InMemoryTimerJobDataManager();
+        historicActivityInstanceDataManager = new InMemoryHistoricActivityInstanceDataManager();
+        historicVariableInstanceDataManager = new InMemoryHistoricVariableInstanceDataManager();
+        historicProcessInstanceDataManager = new InMemoryHistoricProcessInstanceDataManager();
     }
 }

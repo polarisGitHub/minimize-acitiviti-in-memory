@@ -1,8 +1,6 @@
 package com.polaris.he.activiti.memory;
 
-import org.activiti.engine.impl.persistence.entity.Entity;
-import org.activiti.engine.impl.persistence.entity.ExecutionEntityImpl;
-import org.activiti.engine.impl.persistence.entity.TaskEntityImpl;
+import org.activiti.engine.impl.persistence.entity.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,7 +15,11 @@ public class DataManagerHolder {
 
     private static final Map<Class<? extends Entity>, ThreadLocal<Map<String, Object>>> DATA_MANAGER_MAP = Map.of(
             TaskEntityImpl.class, ThreadLocal.withInitial(LinkedHashMap::new),
-            ExecutionEntityImpl.class, ThreadLocal.withInitial(LinkedHashMap::new)
+            ExecutionEntityImpl.class, ThreadLocal.withInitial(LinkedHashMap::new),
+            HistoricActivityInstanceEntityImpl.class, ThreadLocal.withInitial(LinkedHashMap::new),
+            HistoricVariableInstanceEntityImpl.class, ThreadLocal.withInitial(LinkedHashMap::new),
+            HistoricProcessInstanceEntityImpl.class, ThreadLocal.withInitial(LinkedHashMap::new)
+
     );
 
     public static void prepareStart() {
